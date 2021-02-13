@@ -22,6 +22,8 @@ environment:
 
 dependencies:
   bloc: ^6.1.1
+  mobx: ^1.2.1+4
+  flutter_mobx: ^1.1.0+2
   flutter:
     sdk: flutter
 

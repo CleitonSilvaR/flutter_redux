@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/redux/app_store.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_redux/mobx/app_store.dart';
 
 void main() {
   runApp(MyApp());
@@ -27,6 +28,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final appStore = AppStore();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,21 +43,18 @@ class _MyHomePageState extends State<MyHomePage> {
             Text(
               'You have pushed the button this many times:',
             ),
-            AnimatedBuilder(
-                animation: appStore,
-                // ignore: missing_return
-                builder: (_, __) {
-                  return Text(
-                    appStore.state.toString(),
-                    style: Theme.of(context).textTheme.headline4,
-                  );
-                })
+            Observer(builder: (_) {
+              return Text(
+                appStore.counter.value.toString(),
+                style: Theme.of(context).textTheme.headline4,
+              );
+            }),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          appStore.dispatcher(AppAction.increment);
+          appStore.increment();
         },
         tooltip: 'Increment',
         child: Icon(Icons.add),
